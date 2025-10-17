@@ -59,8 +59,26 @@ RUN mkdir -p $HOME/.config/Code/User && \
     echo '{}' > $HOME/.config/Code/User/settings.json
 
 # Install other tools
-RUN CARGO_HOME=/home/${USERNAME}/.cargo RUSTUP_HOME=/home/${USERNAME}/.rustup PATH="/home/${USERNAME}/.cargo/bin:${PATH}" \
-    sc-meta install all
+# RUN CARGO_HOME=/home/${USERNAME}/.cargo RUSTUP_HOME=/home/${USERNAME}/.rustup PATH="/home/${USERNAME}/.cargo/bin:${PATH}" \
+#    sc-meta install all
+
+# Configure persistent Rust environment
+ENV CARGO_HOME=/home/${USERNAME}/.cargo
+ENV RUSTUP_HOME=/home/${USERNAME}/.rustup
+ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
+
+# Verify Rust setup
+RUN rustup show && cargo --version && sc-meta --version
+
+# Update Rust toolchain to latest stable version (>= 1.87)
+RUN rustup self update && rustup update stable && rustup default stable
+RUN rustc --version
+
+# Install wasm target (required for smart contracts)
+RUN rustup target add wasm32-unknown-unknown
+
+# Install all sc-meta tools
+RUN sc-meta install all
 
 
 # Install test wallets
