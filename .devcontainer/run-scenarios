@@ -1,2 +1,2 @@
 #!/bin/sh
-drt-scenario-go run "$@"
+drt-go-scenario run "$@"

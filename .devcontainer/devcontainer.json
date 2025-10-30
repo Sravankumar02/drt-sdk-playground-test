@@ -1,5 +1,5 @@
 {
-    "image": "dharitri/development-playground:latest",
+    "image": "terradharitri/development-playground:latest",
     "remoteEnv": {
         "CONTRACTS": "${containerWorkspaceFolder}/contracts",
         "SNIPPETS_PY": "${containerWorkspaceFolder}/snippets-python",
